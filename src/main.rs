@@ -37,28 +37,20 @@ fn disablewifi() {
 }
 
 fn getip(interface: &str) -> String{
-    let ps_child = Command::new("networksetup") // `ps` command...
-        .arg("-getinfo")                  // with argument `axww`...
-        .arg(interface)                  // with argument `axww`...
-        .stdout(Stdio::piped())       // of which we will pipe the output.
-        .spawn()                      // Once configured, we actually
-                                      // spawn the command...
-        .unwrap();                    // and assert everything went right.
-    let grep_child_one = Command::new("grep")
-        .arg(r#"^IP address"#)
-        .stdin(Stdio::from(ps_child.stdout.unwrap())) // Pipe through.
-        .stdout(Stdio::piped())
-        .spawn()
-        .unwrap();
-    let grep_child_two = Command::new("awk")
-        .arg(r"-F:")
-        .arg(r#"{print $2}"#)
-        .stdin(Stdio::from(grep_child_one.stdout.unwrap()))
+    let grep_child_two = Command::new("networksetup")
+        .arg("-getinfo")
+        .arg(interface)
         .stdout(Stdio::piped())
         .spawn()
         .unwrap();
     let output = grep_child_two.wait_with_output().unwrap();
     let result = str::from_utf8(&output.stdout).unwrap();
-    let ethip = result.replace(" ", "");
-    return ethip
+    let ethiptemp = result.split("\n");
+    for line in ethiptemp {
+        if line.contains("IP address: "){
+                let ethip = line.replace("IP address: ","");
+                //println!("{}", ethip)
+        }
+    }
+    return ethip //to_string()
 }
