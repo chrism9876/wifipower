@@ -8,9 +8,9 @@ fn main() {
     println!("{}",ethip);
 if ethip.trim().is_empty() {
     println!("no ip for interface: {}",interface);
-    enablewifi()
+    enablewifi();
 } else {
-    disablewifi()
+    disablewifi();
 }
 
 }
@@ -22,7 +22,7 @@ fn enablewifi() {
     .output()
     .expect("command failed to start");
 
-    println!("wifi turned on")
+    println!("wifi turned on");
 }
 
 fn disablewifi() {
@@ -33,7 +33,7 @@ fn disablewifi() {
     .output()
     .expect("command failed to start");
 
-    println!("wifi turned off")
+    println!("wifi turned off");
 }
 
 fn getip(interface: &str) -> String{
