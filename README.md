@@ -7,7 +7,7 @@ Designed to run from lauchDeamon
 
 to crosscompile\
     ```
-    rustup target add aarch64-apple-darwin\
+    rustup target add aarch64-apple-darwin  
     cargo build --release --target aarch64-apple-darwin
     ```
 
